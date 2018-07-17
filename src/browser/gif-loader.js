@@ -1,41 +1,24 @@
 const { remote } = require('electron');
 
-// set constants
-const apiKey = 'c7EYcZrGfteVj6mz9lQzzjUwYwmwxPE5';
-
-function getGifsRandom(apiKey, num) {
-  return new Promise((resolve, reject) => {
-    const url = `http://api.giphy.com/v1/gifs/trending?api_key=${apiKey}&limit=${num}`;
-    console.log(url);
-
-    var request = new XMLHttpRequest();
-    request.open('GET', url, true);
-
-
-    request.onload = (() => {
-      const data = JSON.parse(request.responseText).data;
-      // console.log(request.responseText);
-
-      const urlList = [];
-      for (let key of Object.keys(data)) {
-        urlList.push(data[key].images.fixed_height.url);
-      }
-
-      resolve(urlList);
-
-    });
-    request.send();
-  });
-}
+const gifsCat = require('../../static/gif-urls-cat');
+const gifsFood = require('../../static/gif-urls-food');
+const gifsDog = require('../../static/gif-urls-dog');
 
 async function loadGifs() {
   const gifHolder = document.getElementById('gif-holder');
+  const gifs = [...gifsCat.urls, ...gifsFood.urls, ...gifsDog.urls];
 
-  const gifCount = 1000;
-  const gifs = await getGifsRandom(apiKey, gifCount);
+  // must be smaller than total number of gifs
+  const trials = 3000;
 
-  for(i = 0; i < gifCount; i++) {
-    gifHolder.src = gifs[i];
+  console.log(`Now loading ${trials} out of ${gifs.length} gifs`);
+
+  for (i = 0; i < trials; i++) {
+    if (!gifs[i]) {
+      console.log('ERROR: attempting to load missing URL');
+    } else {
+      gifHolder.src = gifs[i];
+    }
   }
 
   console.log('Done');
