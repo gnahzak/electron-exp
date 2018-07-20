@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Gif Loader</title>
+  </head>
+  <body>
+    <h1>Gif Loader</h1>
+
+    <div>
+      <a href="starter-page.html">Home</a>
+    </div>
+
+    <div>
+        <button id="btn-load-gifs" class="c-button c-button--primary c-button--medium" type="button">Load!</button>
+    </div>
+
+    <div id='div-container'>
+    </div>
+
+    <div>
+      <button id='btn-delete-src'> Clear Source</button>
+      <button id='btn-remove-img'> Remove from DOM</button>
+    </div>
+
+    <script>
+      // You can also require other files to run in this process
+      require('../browser/gif-loader-multiple.js')
+    </script>
+  </body>
+</html>
