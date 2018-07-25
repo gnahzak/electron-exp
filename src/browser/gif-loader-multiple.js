@@ -1,3 +1,6 @@
+const { remote, webFrame } = require('electron');
+
+
 // warning: does not check for order of operations, allowing for
 // null errors
 
@@ -57,12 +60,13 @@ async function loadAllGifs() {
   });
 
   console.log('Done');
-
+  console.log(webFrame.getResourceUsage());
 }
 
 function deleteAllSources() {
   imageHolders.forEach((holder) => {
-    holder.src = null;
+    // holder.src = null;
+    holder.src = '../../static/img/small.png';
   });
 }
 

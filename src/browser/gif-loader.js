@@ -1,9 +1,10 @@
-const { remote } = require('electron');
+const { remote, webFrame } = require('electron');
 
 const allGifs = require('../../static/gifUrls/gif-all');
 
 // creating global constants
 const gifHolder = document.getElementById('gif-holder');
+const gifIndex = document.getElementById('text-gif-index');
 
 function main() {
   const btnLoadGifs = document.getElementById('btn-load-gifs');
@@ -31,15 +32,30 @@ async function loadGifs() {
   console.log(`This contains ${countUniqueElements(gifsToLoad)} unique images`);
   console.log(`There are ${countUniqueElements(gifs)} unique options in total`);
 
-  gifsToLoad.forEach((gif) => {
-    if (!gif) {
-      console.log('ERROR: attempting to load missing URL');
-    } else {
-      gifHolder.src = gif;
+  // gifsToLoad.forEach(async (gif) => {
+  //   if (!gif) {
+  //     console.log('ERROR: attempting to load missing URL');
+  //   } else {
+  //     gifHolder.src = gif;
+  //     await sleep(1000);
+  //     console.log('finished sleeping');
+  //   }
+  // });
+
+  i = 0;
+  while (i < numGifs) {
+    gifHolder.src = gifsToLoad[i];
+    await sleep(50);
+    // console.log(`finished sleeping ${i}`);
+    i++;
+
+    if (i % 100 === 0) {
+      gifIndex.innerHTML = `Just loaded: ${i}`;
     }
-  });
+  }
 
   console.log('Done');
+  console.log(webFrame.getResourceUsage());
 
 }
 
@@ -54,6 +70,10 @@ function removeImage() {
 // counts the number of unique elements in an array
 function countUniqueElements(list) {
   return (new Set(list)).size;
+}
+
+function sleep(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
 }
 
 main();
