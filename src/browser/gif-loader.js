@@ -14,6 +14,13 @@ function main() {
   btnLoadGifs.addEventListener('click', loadGifs);
   btnDeleteSrc.addEventListener('click', deleteImageSource);
   btnRemoveImg.addEventListener('click', removeImage);
+
+  const btnClearWebframe = document.getElementById('btn-webframe-clear');
+  btnClearWebframe.addEventListener('click', async (e) => {
+    console.log(webFrame.getResourceUsage());
+    // await sleep(2000);
+    webFrame.clearCache();
+  });
 }
 
 async function loadGifs() {
@@ -21,7 +28,7 @@ async function loadGifs() {
 
   // must be smaller than total number of gifs
   const startIndex = 0;
-  const numGifs = 1000;
+  const numGifs = 500;
 
   const gifsToLoad = gifs.slice(startIndex, startIndex + numGifs);
   if (gifsToLoad.length !== numGifs) {
@@ -45,7 +52,7 @@ async function loadGifs() {
   i = 0;
   while (i < numGifs) {
     gifHolder.src = gifsToLoad[i];
-    await sleep(50);
+    await sleep(100);
     // console.log(`finished sleeping ${i}`);
     i++;
 
@@ -53,6 +60,9 @@ async function loadGifs() {
       gifIndex.innerHTML = `Just loaded: ${i}`;
     }
   }
+
+  // use to get the 500 meg gif
+  // gifHolder.src = 'https://s-media-cache-ak0.pinimg.com/originals/8a/e5/c8/8ae5c8b253ce37b9876ce464e0d396c4.gif?ref=webdesignernews.com';
 
   console.log('Done');
   console.log(webFrame.getResourceUsage());
